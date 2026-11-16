@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SERLEST LIVE</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; background: #101923; color: #f4f8fb; }
+    main { width: min(960px, calc(100% - 24px)); margin: 2rem auto; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    h1 { margin: 0; font-size: clamp(1.1rem, 4vw, 1.65rem); }
+    a { background: #a7da42; color: #102032; padding: .6rem .8rem; border-radius: 8px; font-weight: 700; text-decoration: none; }
+    a:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    iframe { display: block; width: 100%; height: max(300px, min(54vw, 540px)); border: 0; border-radius: 12px; background: #070b10; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>SERLEST LIVE</h1>
+      <a href="https://www.twitch.tv/serlest">Відкрити Twitch</a>
+    </header>
+    <noscript><p>Щоб дивитися ефір, відкрий Twitch за посиланням вище.</p></noscript>
+  </main>
+  <script>
+    if (location.hostname) {
+      const url = new URL('https://player.twitch.tv/');
+      url.search = new URLSearchParams({
+        channel: 'serlest',
+        parent: location.hostname,
+        autoplay: 'false'
+      });
+      const player = document.createElement('iframe');
+      player.title = 'Прямий ефір Serlest на Twitch';
+      player.src = url.href;
+      player.allowFullscreen = true;
+      document.querySelector('main').append(player);
+    }
+  </script>
+</body>
+</html>
