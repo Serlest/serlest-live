@@ -6,12 +6,18 @@
   <title>SERLEST LIVE</title>
   <style>
     :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; background: #101923; color: #f4f8fb; }
-    main { width: min(960px, calc(100% - 24px)); margin: 2rem auto; }
+    main { width: min(1260px, calc(100% - 24px)); margin: 2rem auto; }
     header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
     h1 { margin: 0; font-size: clamp(1.1rem, 4vw, 1.65rem); }
     a { background: #a7da42; color: #102032; padding: .6rem .8rem; border-radius: 8px; font-weight: 700; text-decoration: none; }
     a:focus-visible { outline: 3px solid white; outline-offset: 4px; }
-    iframe { display: block; width: 100%; height: max(300px, min(54vw, 540px)); border: 0; border-radius: 12px; background: #070b10; }
+    .stream { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 12px; }
+    iframe { display: block; width: 100%; height: clamp(300px, 48vw, 540px); border: 0; border-radius: 12px; background: #070b10; }
+    @media (max-width: 800px) {
+      main { margin: 1rem auto; }
+      .stream { grid-template-columns: minmax(0, 1fr); }
+      .chat { height: clamp(320px, 55dvh, 540px); }
+    }
   </style>
 </head>
 <body>
@@ -21,6 +27,7 @@
       <a href="https://www.twitch.tv/serlest">Відкрити Twitch</a>
     </header>
     <noscript><p>Щоб дивитися ефір, відкрий Twitch за посиланням вище.</p></noscript>
+    <div class="stream"></div>
   </main>
   <script>
     if (location.hostname) {
@@ -34,7 +41,14 @@
       player.title = 'Прямий ефір Serlest на Twitch';
       player.src = url.href;
       player.allowFullscreen = true;
-      document.querySelector('main').append(player);
+      const chatUrl = new URL('https://www.twitch.tv/embed/serlest/chat');
+      chatUrl.searchParams.set('parent', location.hostname);
+      chatUrl.searchParams.set('darkpopout', '');
+      const chat = document.createElement('iframe');
+      chat.className = 'chat';
+      chat.title = 'Чат Serlest на Twitch';
+      chat.src = chatUrl.href;
+      document.querySelector('.stream').append(player, chat);
     }
   </script>
 </body>
